@@ -1,0 +1,57 @@
+<rule>
+name: code-quality-enforcer
+description: Cross-language code quality enforcement and bug prevention
+filters:
+- type: file_extension
+  pattern: "\.(cs|py|java)$"
+- type: event
+  pattern: "(file_create|file_modify)"
+actions:
+- type: execute
+  command: |
+    # Cross-language static analysis
+    if [[ "$FILE" == *.cs ]]; then
+      dotnet format --verify-no-changes --report /tmp/analysis "$FILE"
+    elif [[ "$FILE" == *.py ]]; then
+      pylint --output-format=json "$FILE" > /tmp/analysis
+    elif [[ "$FILE" == *.java ]]; then
+      checkstyle -c /config/checkstyle.xml "$FILE" > /tmp/analysis
+    fi
+    
+    # Auto-commit with conventional format
+    CHANGE_TYPE=$(jq -r '.category // "chore"' /tmp/analysis)
+    git commit -m "fix(code-quality): auto-correct $FILE" "$FILE"
+
+- type: suggest
+  message: |
+    Code Quality Requirements:
+    
+    **Cross-Language Standards**
+    - Cyclomatic complexity ≤ 10
+    - Cognitive complexity ≤ 15
+    - Null checks enforced
+    - Exception handling with context
+    - Memory leak prevention patterns
+    
+    **Language-Specific**
+    | C#              | Python           | Java             |
+    |------------------|------------------|------------------|
+    | IDisposable usage| Context managers | Try-with-resources|
+    | LINQ optimization| Type hints       | Stream API       |
+    | Async/await      | Walrus operator  | Lombok annotations|
+
+    **Bug Prevention**
+    1. Static analysis on save
+    2. Automated test generation
+    3. Memory safety checks
+    4. Anti-pattern detection
+
+- type: reject
+  conditions:
+  - pattern: "(TODO|FIXME|HACK)"
+  message: "Temporary markers prohibited - implement proper solution"
+
+metadata:
+  priority: critical
+  version: 1.1
+</rule>
