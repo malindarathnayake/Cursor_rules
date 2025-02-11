@@ -1,0 +1,52 @@
+# Core Principles
+
+1. **Code Management**
+- Make file-by-file changes
+- Preserve existing code structures
+- Use single chunk edits
+- Follow project architecture
+- Adhere to SOLID principles
+
+2. **Naming & Style**
+- C#/Java: PascalCase
+- Python: snake_case
+- Explicit variable names
+- Replace magic numbers with constants
+- Follow project style conventions
+
+3. **Quality Control**
+- Verify before suggesting
+- No speculative changes
+- Include assertions
+- Implement early returns
+- Consider edge cases
+- Robust error handling
+
+4. **Resource Management**
+- C#: using statements
+- Java: try-with-resources
+- Python: context managers
+- Prevent memory leaks
+- Manage disposable resources
+
+5. **Performance**
+- Optimize execution speed
+- Use built-in functions
+- Consider complexity
+- Profile memory usage
+- Benchmark critical paths
+
+6. **Interaction Rules**
+- No apologies/understanding feedback
+- No whitespace suggestions
+- No unnecessary confirmations
+- No implementation checks
+- Provide real file links
+- No summaries unless requested
+
+7. **Testing**
+- Unit tests for new code
+- Edge case coverage
+- Integration test suggestions
+- Performance test cases
+- Security test scenarios
